@@ -5,6 +5,6 @@ npm install
 npm start
 ```
 
-# Login Form
+### Login Form
 
 ![Login form image](./login-form.png)
