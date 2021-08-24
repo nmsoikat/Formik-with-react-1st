@@ -31,11 +31,13 @@ function Login() {
 
     validate,
 
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       console.log(values);
+      resetForm();
     },
   });
 
+  // custom class add to error field
   const fieldError = (field) => {
     if (formik.touched[field] && formik.errors[field]) {
       return "error";
