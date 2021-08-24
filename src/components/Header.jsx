@@ -1,9 +1,10 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 function Header() {
   const history = useHistory();
-
+  const location = useLocation();
+  // console.log(location);
   return (
     <>
       <h2 className="main-title text-center st-2">Formik With React</h2>
@@ -14,9 +15,21 @@ function Header() {
           history.push(e.target.value);
         }}
       >
-        <option value="/">Login</option>
-        <option value="/registration">Registration</option>
-        <option value="/all-field">All Field</option>
+        <option value="/" selected={location.pathname === "/" && true}>
+          Login
+        </option>
+        <option
+          value="/registration"
+          selected={location.pathname === "/registration" && true}
+        >
+          Registration
+        </option>
+        <option
+          value="/all-field"
+          selected={location.pathname === "/all-field" && true}
+        >
+          All Field
+        </option>
       </select>
     </>
   );
