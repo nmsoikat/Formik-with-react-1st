@@ -1,22 +1,31 @@
 import "./App.css";
 import Login from "./components/screen/Login";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import Header from "./components/Header";
+import AllField from "./components/screen/AllField";
+import Registration from "./components/screen/Registration";
 
 function App() {
   return (
-    <div className="main-bg">
-      <div className="container">
-        {/* ---- common header ------ */}
-        <h2 className="main-title text-center st-2">Formik With React</h2>
-        <select className="select-form st-1" name="form-type" id="">
-          <option value="">Login</option>
-          <option value="">Registration</option>
-          <option value="">All Field</option>
-        </select>
-
-        {/* --------- form ------ */}
-        <Login />
+    <Router>
+      <div className="main-bg">
+        <div className="container">
+          {/* ---- common header ------ */}
+          <Header></Header>
+          <Switch>
+            <Route exact path="/">
+              <Login />
+            </Route>
+            <Route path="/registration">
+              <Registration />
+            </Route>
+            <Route path="/all-field">
+              <AllField />
+            </Route>
+          </Switch>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
