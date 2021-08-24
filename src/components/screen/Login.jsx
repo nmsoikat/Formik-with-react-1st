@@ -71,9 +71,11 @@ function Login() {
             name="password"
             className="field-style"
             placeholder="******"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
+            // value={formik.values.password}
+            // onChange={formik.handleChange}
+            // onBlur={formik.handleBlur}
+            // helper method
+            {...formik.getFieldProps("password")}
           />
 
           {formik.touched.password && formik.errors.password ? (
