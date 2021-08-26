@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import TextError from "../TextError";
 
 const initialValues = {
   firstName: "",
@@ -17,6 +18,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().required("Required!").email("Invalid email format!"),
   phoneNum: Yup.string()
     .required("Required!")
+    .matches(/^[0-9]+$/, "Must be only digits")
     .min(11, "BD phone number format (11 digit allow)")
     .max(11, "Too long!"),
   password: Yup.string().required("Required!").min(6, "Too short!"),
@@ -52,7 +54,11 @@ function Registration() {
                 className="field-style"
                 placeholder="First Name"
               />
-              <ErrorMessage name="firstName" />
+              <ErrorMessage
+                name="firstName"
+                className="text-danger"
+                component="div"
+              />
             </div>
             <div className="field-col">
               <label htmlFor="last-name">Last Name</label>
@@ -63,7 +69,11 @@ function Registration() {
                 className="field-style"
                 placeholder="Last Name"
               />
-              <ErrorMessage name="lastName" />
+              <ErrorMessage
+                name="lastName"
+                className="text-danger"
+                component="div"
+              />
             </div>
           </div>
 
@@ -76,7 +86,7 @@ function Registration() {
               className="field-style"
               placeholder="example@dom.com"
             />
-            <ErrorMessage name="email" />
+            <ErrorMessage name="email" component={TextError} />
           </div>
 
           <div className="field-wrap">
@@ -88,7 +98,7 @@ function Registration() {
               className="field-style"
               placeholder="01***-******"
             />
-            <ErrorMessage name="phoneNum" />
+            <ErrorMessage name="phoneNum" component={TextError} />
           </div>
 
           <div className="field-wrap">
@@ -100,7 +110,7 @@ function Registration() {
               className="field-style"
               placeholder="* * * * * *"
             />
-            <ErrorMessage name="password" />
+            <ErrorMessage name="password" component={TextError} />
           </div>
 
           <div className="field-wrap">
@@ -112,7 +122,7 @@ function Registration() {
               className="field-style"
               placeholder="* * * * * *"
             />
-            <ErrorMessage name="confirmPass" />
+            <ErrorMessage name="confirmPass" component={TextError} />
           </div>
 
           <div className="field-wrap">
