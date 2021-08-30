@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Header from "./components/Header";
 import AllField from "./components/screen/AllField";
 import Registration from "./components/screen/Registration";
+import Implementation from "./components/screen/Implementation";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
             </Route>
             <Route path="/all-field">
               <AllField />
+            </Route>
+            <Route path="/practice">
+              <Implementation />
             </Route>
           </Switch>
         </div>

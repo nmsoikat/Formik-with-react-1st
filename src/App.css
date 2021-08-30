@@ -55,6 +55,7 @@
 }
 
 /* input field style */
+.field-style-inline,
 .field-style {
   display: block;
   width: 100%;
@@ -64,9 +65,36 @@
   padding: 5px;
 }
 
+.field-style-inline,
 .field-style:focus {
   outline: #149942;
   box-shadow: 0px 0px 5px rgb(20 153 66 / 30%);
+}
+
+.btnRemove,
+.btnPush,
+.field-style-inline {
+  display: inline-block;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.btnRemove,
+.btnPush {
+  width: 25px;
+  height: 25px;
+  border: 1px solid transparent;
+  color: #fff;
+  border-radius: 10px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.btnPush {
+  background-color: #149942;
+}
+.btnRemove {
+  background-color: #ea3b24;
 }
 
 /* submit button */
