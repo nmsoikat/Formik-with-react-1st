@@ -42,8 +42,11 @@ function Implementation() {
     return error;
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, onSubmitProps) => {
     console.log(values);
+    // console.log("onSubmitProps", onSubmitProps);
+    const { setSubmitting } = onSubmitProps;
+    setSubmitting(false);
   };
 
   return (
@@ -61,6 +64,7 @@ function Implementation() {
         validate={validate}
         // validateOnBlur={false}
         // validateOnChange={false}
+        // validateOnMount
       >
         {(formik) => {
           console.log(formik);
@@ -232,11 +236,12 @@ function Implementation() {
               </div>
 
               {/* ---------------- Submit ---------------------- */}
+
               <div className="field-wrap">
                 <button
                   className="btn-submit"
                   type="submit"
-                  disabled={!formik.isValid}
+                  disabled={!formik.isValid || formik.isSubmitting}
                 >
                   Submit
                 </button>
