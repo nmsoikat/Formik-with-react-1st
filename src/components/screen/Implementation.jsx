@@ -1,14 +1,45 @@
-import { Formik, Form, Field, FieldArray } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  FieldArray,
+  FastField,
+  ErrorMessage,
+} from "formik";
+import TextError from "../TextError";
 
 function Implementation() {
   const initialValues = {
     name: "",
+    age: "",
     social: {
       facebook: "",
       twitter: "",
     },
     phoneNumber: ["", ""],
     phNumbers: [""],
+    ex1: "",
+  };
+
+  const validate = (values) => {
+    const errors = {};
+    if (!values.name) {
+      errors.name = "required";
+    }
+
+    if (!values.age) {
+      errors.age = "required";
+    }
+    return errors;
+  };
+
+  const ex1Validate = (value) => {
+    let error = "";
+    if (!value) {
+      error = "required";
+    }
+
+    return error;
   };
 
   const onSubmit = (values) => {
@@ -19,115 +50,200 @@ function Implementation() {
     <div className="form-container  st-3">
       <h2 className="form-caption text-center">Practice Today</h2>
 
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        <Form>
-          {/* 
+      {/*
+       * onChange, onBlur, and submit. Formik error detection work automatically
+       * we can control it on change, and blur
+       */}
+
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validate={validate}
+        // validateOnBlur={false}
+        // validateOnChange={false}
+      >
+        {(formik) => {
+          console.log(formik);
+          return (
+            <Form>
+              {/* 
+              ---------------------------------------------
               Field component with render-props pattern 
+              ---------------------------------------------
           */}
-          <div className="field-wrap">
-            <label htmlFor="name">Name</label>
-            <Field name="name">
-              {(props) => {
-                const { field, form, meta } = props;
+              <div className="field-wrap">
+                <label htmlFor="name">Name</label>
+                <Field name="name">
+                  {(props) => {
+                    const { field, form, meta } = props;
 
-                return (
-                  <div>
-                    <input
-                      type="text"
-                      id="name"
-                      {...field}
-                      placeholder="your name please"
-                      className="field-style"
-                    />
-                    {meta.touched && meta.error ? (
-                      <div>{meta.error}</div>
-                    ) : null}
-                  </div>
-                );
-              }}
-            </Field>
-          </div>
+                    return (
+                      <div>
+                        <input
+                          type="text"
+                          id="name"
+                          {...field}
+                          placeholder="your name please"
+                          className="field-style"
+                        />
+                        {meta.touched && meta.error ? (
+                          <div>{meta.error}</div>
+                        ) : null}
+                      </div>
+                    );
+                  }}
+                </Field>
+              </div>
 
-          {/* Working on Nested Object */}
-          <div className="field-wrap">
-            <label htmlFor="facebook">Facebook</label>
-            <Field
-              id="facebook"
-              name="social.facebook"
-              className="field-style"
-            />
-          </div>
-          <div className="field-wrap">
-            <label htmlFor="twitter">Twitter</label>
-            <Field id="twitter" name="social.twitter" className="field-style" />
-          </div>
+              {/* 
+          ---------------------------------------------
+          FastField component 
+          ---------------------------------------------
+          */}
+              <div className="field-wrap">
+                <label htmlFor="age">Age</label>
+                <FastField name="age">
+                  {(props) => {
+                    const { field, form, meta } = props;
 
-          {/* Working on Array */}
-          <div className="field-wrap">
-            <label htmlFor="phonePr">Phone Number one</label>
-            <Field id="phonePr" name="phoneNumber[0]" className="field-style" />
-          </div>
-          <div className="field-wrap">
-            <label htmlFor="phoneSe">Phone Number optional</label>
-            <Field id="phoneSe" name="phoneNumber[1]" className="field-style" />
-          </div>
+                    return (
+                      <div>
+                        <input
+                          type="text"
+                          id="age"
+                          {...field}
+                          placeholder="your age please"
+                          className="field-style"
+                        />
+                        {meta.touched && meta.error ? (
+                          <div>{meta.error}</div>
+                        ) : null}
+                      </div>
+                    );
+                  }}
+                </FastField>
+              </div>
 
-          {/* 
+              {/* 
+          ------------------------------
+            Working on Nested Object 
+          -----------------------------
+          */}
+              <div className="field-wrap">
+                <label htmlFor="facebook">Facebook</label>
+                <Field
+                  id="facebook"
+                  name="social.facebook"
+                  className="field-style"
+                />
+              </div>
+              <div className="field-wrap">
+                <label htmlFor="twitter">Twitter</label>
+                <Field
+                  id="twitter"
+                  name="social.twitter"
+                  className="field-style"
+                />
+              </div>
+
+              {/* Working on Array */}
+              <div className="field-wrap">
+                <label htmlFor="phonePr">Phone Number one</label>
+                <Field
+                  id="phonePr"
+                  name="phoneNumber[0]"
+                  className="field-style"
+                />
+              </div>
+              <div className="field-wrap">
+                <label htmlFor="phoneSe">Phone Number optional</label>
+                <Field
+                  id="phoneSe"
+                  name="phoneNumber[1]"
+                  className="field-style"
+                />
+              </div>
+
+              {/* 
             -----------------------------------------
             Dynamic form control using FieldArray Component 
             --------------------------------------------
           */}
-          <div className="field-wrap">
-            <label htmlFor="phNumbers">Phone Numbers (dynamic) </label>
-            <FieldArray name="phNumbers">
-              {(fieldArrayProps) => {
-                const { push, remove, form } = fieldArrayProps;
-                const { values } = form;
-                const { phNumbers } = values;
+              <div className="field-wrap">
+                <label htmlFor="phNumbers">Phone Numbers (dynamic) </label>
+                <FieldArray name="phNumbers">
+                  {(fieldArrayProps) => {
+                    const { push, remove, form } = fieldArrayProps;
+                    const { values } = form;
+                    const { phNumbers } = values;
 
-                // console.log(fieldArrayProps);
+                    // console.log(fieldArrayProps);
 
-                return (
-                  <div>
-                    {phNumbers.map((item, index) => (
-                      <div key={index}>
-                        <Field
-                          name={`phNumbers[${index}]`}
-                          type="tel"
-                          className="field-style-inline"
-                          placeholder="01***-******"
-                        />
-                        <button
-                          type="button"
-                          className="btnPush"
-                          onClick={() => push("")}
-                        >
-                          +
-                        </button>
+                    return (
+                      <div>
+                        {phNumbers.map((item, index) => (
+                          <div key={index}>
+                            <Field
+                              name={`phNumbers[${index}]`}
+                              type="tel"
+                              className="field-style-inline"
+                              placeholder="01***-******"
+                            />
+                            <button
+                              type="button"
+                              className="btnPush"
+                              onClick={() => push("")}
+                            >
+                              +
+                            </button>
 
-                        {index > 0 && (
-                          <button
-                            type="button"
-                            className="btnRemove"
-                            onClick={() => remove(index)}
-                          >
-                            x
-                          </button>
-                        )}
+                            {index > 0 && (
+                              <button
+                                type="button"
+                                className="btnRemove"
+                                onClick={() => remove(index)}
+                              >
+                                x
+                              </button>
+                            )}
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                );
-              }}
-            </FieldArray>
-          </div>
+                    );
+                  }}
+                </FieldArray>
+              </div>
 
-          <div className="field-wrap">
-            <button className="btn-submit" type="submit">
-              Submit
-            </button>
-          </div>
-        </Form>
+              {/* 
+                --------------------------------
+                Field level validation
+                --------------------------------
+          */}
+              <div className="field-wrap">
+                <label htmlFor="ex1">Example One</label>
+                <Field
+                  name="ex1"
+                  id="ex1"
+                  className="field-style"
+                  validate={ex1Validate}
+                />
+
+                <ErrorMessage name="ex1" component={TextError} />
+              </div>
+
+              {/* ---------------- Submit ---------------------- */}
+              <div className="field-wrap">
+                <button
+                  className="btn-submit"
+                  type="submit"
+                  disabled={!formik.isValid}
+                >
+                  Submit
+                </button>
+              </div>
+            </Form>
+          );
+        }}
       </Formik>
     </div>
   );
