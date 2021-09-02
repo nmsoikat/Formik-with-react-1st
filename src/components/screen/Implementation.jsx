@@ -6,9 +6,12 @@ import {
   FastField,
   ErrorMessage,
 } from "formik";
+import { useState } from "react";
 import TextError from "../TextError";
 
 function Implementation() {
+  const [formData, setFormData] = useState(null);
+
   const initialValues = {
     name: "",
     age: "",
@@ -18,6 +21,18 @@ function Implementation() {
     },
     phoneNumber: ["", ""],
     phNumbers: [""],
+    ex1: "",
+  };
+
+  const savedValues = {
+    name: "Rohim Mia",
+    age: "55",
+    social: {
+      facebook: "ddd",
+      twitter: "ddd",
+    },
+    phoneNumber: ["", ""],
+    phNumbers: ["015--------"],
     ex1: "",
   };
 
@@ -47,6 +62,7 @@ function Implementation() {
     // console.log("onSubmitProps", onSubmitProps);
     const { setSubmitting } = onSubmitProps;
     setSubmitting(false);
+    onSubmitProps.resetForm();
   };
 
   return (
@@ -59,7 +75,8 @@ function Implementation() {
        */}
 
       <Formik
-        initialValues={initialValues}
+        initialValues={formData || initialValues}
+        enableReinitialize
         onSubmit={onSubmit}
         validate={validate}
         // validateOnBlur={false}
@@ -237,6 +254,15 @@ function Implementation() {
 
               {/* ---------------- Submit ---------------------- */}
 
+              <div className="field-wrap">
+                <button
+                  className="btn-submit"
+                  type="submit"
+                  onClick={() => setFormData(savedValues)}
+                >
+                  Load Data
+                </button>
+              </div>
               <div className="field-wrap">
                 <button
                   className="btn-submit"
