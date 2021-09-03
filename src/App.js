@@ -23,9 +23,6 @@ function App() {
             <Route path="/all-field">
               <AllField />
             </Route>
-            <Route path="/practice">
-              <Implementation />
-            </Route>
           </Switch>
         </div>
       </div>
